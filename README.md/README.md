@@ -11,3 +11,24 @@
 *살려주세요*
 
 ~~제발~~
+
+[스테이지어스 홈페이지](https://stageus.co.kr)
+
+![이미지 못찾음](https://www.stageus.co.kr/img/stageus_logo_white.png)
+
+![이미지 없음](/img/introduce.png)
+
+```
+일반적인 텍스트로 취급됨
+```
+
+```html
+<h1 id="title">제목</h1>
+```
+
+```js
+const num = 10
+function cal() {
+    return num*2
+}
+```
