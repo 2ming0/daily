@@ -1,0 +1,95 @@
+header {
+    text-align: center;
+    width: 10%;
+    height: 100px;
+    margin: auto;
+}
+
+h1 {
+    font-size: 40px;
+    border-top: 3px solid #FFE699;
+    border-bottom: 3px solid #FFE699;
+    margin-top: 60%;
+}
+
+main{
+    width: 50%;
+    height: 400px;  
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 50px;
+
+}
+
+.text_input {
+    width: 40%;
+    height: 50px;
+    background-color: #FFE699;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 5%;
+    font-size: 20px;
+    border: 0px;
+}
+
+#login_btn {
+    width: 40%;
+    height: 50px;
+    background-color: #FECD70;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 20px;
+    border: 0px;
+}
+
+#text {
+    display: block;
+    width: 40%;
+    height: 35px;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#join {
+    display: inline-block;
+    width: 48%;
+    text-align: left;
+
+}
+
+#search {
+    display: inline-block;
+    width: 48%;
+    text-align: right;
+}
+
+@media (max-width: 750px) {
+    main {
+        width: 100%;
+    }
+    .text_input {
+        width: 50%;
+    }
+    #text {
+        width: 50%;
+    }
+    #login_btn {
+        width: 50%;
+    }
+    #join {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+    #search {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+
+}

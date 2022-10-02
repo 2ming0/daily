@@ -1,0 +1,266 @@
+header {
+    text-align: center;
+    width: 10%;
+    height: 100px;
+    margin: auto;
+}
+body {
+    z-index: 1;
+}
+
+h1 {
+    font-size: 40px;
+    border-top: 3px solid #FFE699;
+    border-bottom: 3px solid #FFE699;
+
+}
+
+#log {
+    position: absolute;
+    right: 1%;
+    top: 1%;
+    font-size: 20px;
+}
+
+#container {
+    display: flex;
+    justify-content: space-between;
+}
+
+nav {
+    height: 80vh;
+    width: 15%;
+    background-color: #FFE699;
+    margin-left: 0px;
+    font-size: 20px;
+}
+
+#media_nav {
+    position: absolute;
+    height: 100vh;
+    width: 50%;
+    background-color: #FFE699;
+    left: 0px;
+    top: 0px;
+    font-size: 14px;
+    z-index: 4;
+}
+
+#media_menu {
+    position: absolute;
+    right: 1%;
+    width: 20px;
+    height: 20px;
+
+}
+
+#menu {
+    display: none;
+    width: 20px;
+    height: 20px;
+}
+
+#me {
+    font-size: 25px;
+}
+
+.member {
+    font-size: 20px;
+    margin: 15%;
+}
+
+
+.access {
+    width: 25px;
+    height: 25px;
+}
+
+.member_name {
+    display: flex;
+    align-items: center;
+}
+
+
+main {
+    position: relative;
+    height: 80vmin;
+    width: 80%;
+    border: 3px solid #FECD70;
+    margin-right: 0px;
+    font-size: 25px;
+
+}
+
+#add_box {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    border: 1px solid;   
+}
+
+#add_box_title {
+    width: 100%;
+    height: 10vh;
+    border-bottom: 1px solid;   
+    text-align: center;
+    font-size: 30px;
+}
+
+#add_date {
+    position: absolute;
+    left: 5%;
+    width: 20%;
+    height: 10%;
+    font-size: 25px;
+}
+
+
+#select_time1 {
+    position: absolute;
+    left: 30%;
+    width: 10%;
+    height: 10%;
+    font-size: 25px;
+}
+
+#select_time2 {
+    position: absolute;
+    left: 50%;
+    width: 10%;
+    height: 10%;
+    font-size: 25px;
+}
+
+#hour {
+    position: absolute;
+    left: 60%;
+    font-size: 25px;
+}
+
+#select_time3 {
+    position: absolute;
+    left: 70%;
+    width: 10%;
+    height: 10%;
+    font-size: 25px;
+}
+
+#minute {
+    position: absolute;
+    left: 80%;
+    font-size: 25px;
+}
+
+#input_todo {
+    position: absolute;
+    left: 5%;
+    top: 40%;
+    font-size: 25px;
+    border: 0px;
+    width: 80%;
+    height: 50%;
+}
+
+#submit {
+    position: absolute;
+    right: 2%;
+    bottom: 5%;    
+    width: 10%;
+    height: 10%;
+    font-size: 20px;
+}
+
+
+#date {
+    margin-left: auto;
+    margin-right: auto;
+    width: 30%;
+    font-size: 25px;
+    text-align: center;
+}
+
+.next {
+    width: 20px;
+    height: 20px;
+}
+
+.year {
+    display: inline;
+}
+
+.month {
+    display: inline;
+}
+
+#add {
+    font-size: 30px;
+    position: absolute;
+    right: 2%;
+}
+
+.day {
+    margin: 5%;
+}
+
+.todo {
+    position: absolute;
+    left: 30%;
+    font-size: 25px;
+}
+
+#schedule1_fix {
+    position: absolute;
+    left: 30%;
+    font-size: 25px;
+    top: 23%;
+}
+
+.fix {
+    position: absolute;
+    right: 15%;
+    color: gray;
+}
+
+.del {
+    position: absolute;
+    right: 8%;
+    color: gray;
+}
+
+@media (max-width: 750px) {
+    h1 {
+        font-size: 22px;
+    }
+    nav {
+        font-size: 13px;
+        display: none;
+    }
+    main {
+        width: 100%;
+        font-size: 16px;
+    }
+    #menu {
+        display: block;
+    }
+    .todo {
+        font-size: 16px;
+    }
+    #month {
+        font-size: 16px;
+    }
+    .next {
+        width: 10px;
+        height: 10px;
+    }
+    .member {
+        font-size: 16px;
+    }
+    #me {
+        font-size: 18px;
+    }
+    #add {
+        font-size: 13px;
+    }
+}
+
+/* 360으로도 만들기-f12 누르면 360까지 줄일 수 있음!! */
