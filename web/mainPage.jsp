@@ -29,34 +29,6 @@
     Class.forName("com.mysql.jdbc.Driver"); //커넥터를 불러오는 명령어 줄
     Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily", "ming", "11234");
 
-    //String get_date = "";
-    //String get_content = "";
-
-    //String[] get_date = new String[10];
-    //String[] get_content = new String[10];
-
-    //String[][] get_date;
-    //get_content = [][];
-
-    //int idx =0;
-
-    //while(result.next()){
-    //    get_date[idx] = result.getString("datetime");
-    //    get_content[idx] = result.getString("content");
-    //    idx++;
-    //}
-
-    //String currdate = new java.text.SimpleDateFormat("yyyy/MM").format( new java.util.Date() );
-
-    //String[] date_ = get_date[1]
-
-    //String[] date1 = get_date[0].split(" ");
-    //String[] date2 = date1[0].split("-");
-
-    //date__ = integer.toString(get_date[1])
-
-    //String[] date_ = date__.split("-")
-
     String currentMonth = "";
     String nextMonth = "";
     String writer = "";
@@ -73,7 +45,7 @@
     
 
 
-        if (department.equals("manager")){
+        if (position.equals("manager")){
             String sql = "SELECT name, position, department FROM user WHERE id NOT IN (?) ORDER BY department ASC, position DESC";
             PreparedStatement query = connect.prepareStatement(sql);
             query.setString(1, id);
@@ -387,25 +359,88 @@
         document.getElementById("add_box").style.display = "none";
     }
 
-    function fix() {
-        const todo_fix = document.getElementById("schedule1").innerHTML
-        var df = "wr"
-        if (fix_check == 1) {
+    function fixEvent(){
+            const target = event.target        
+            const textTag = target.previousElementSibling
+            const value = textTag.innerHTML
+            var fix = document.createElement('input')
+            fix.type = 'text'
+            fix.value = value
+            fix.className = 'fix_input'
+            fix.addEventListener('keydown', function(event) {
+                if (event.keyCode === 13) {
+                  event.preventDefault()
+                  fix_completeEvent(fix.value, value, textTag, fix, completeBtn, cancelBtn, target, delBtn)
+                }
+              })
+  
             
-            alert("수정하시겠습니까?")
+            textTag.innerHTML = ''
+            textTag.appendChild(fix)
+            var completeBtn = document.createElement('button')
+            completeBtn.type = 'button'
+            completeBtn.innerHTML = '완료'
+            completeBtn.className = 'fix_input_btn'
+            textTag.after(completeBtn)
+            var delBtn = target.nextElementSibling
+            target.style.visibility = 'hidden'
+            delBtn.style.visibility = 'hidden'
+            completeBtn.addEventListener('click', function(){fix_completeEvent(fix.value, value, textTag, fix, completeBtn, cancelBtn, target, delBtn)})
         }
-        else {
-            console.log(todo_fix)
-            document.getElementById("schedule1").innerHTML = "<input type='text' value=todo_fix>";
-
-            document.getElementById("fix_1").innerHTML = "완료";
-            fix_check++;            
+        function fix_completeEvent(value, oriValue, oriTag, input, completeBtn, cancelBtn, fix_btn, delBtn){
+                var confirmValue = confirm("수정하시겠습니까?")
+                if (confirmValue == true){
+                    var form = document.createElement('form')
+                    var index = document.createElement('input')
+                    index.type = 'hidden'
+                    index.value = fix_btn.id
+                    index.name = 'indexValue'
+                    
+                    var text = document.createElement('input')
+                    text.type = 'hidden'
+                    text.value = value
+                    text.name = 'textValue'
+                    var date = document.createElement('input')
+                    date.type = 'hidden'
+                    date.value = '<%=currentMonth%>'
+                    date.name = 'inquireDateValue'
+                    
+                    form.appendChild(index)
+                    form.appendChild(text)
+                    form.appendChild(date)  
+                    form.method = 'POST'
+                    form.action = 'complete.jsp/fix_complete.jsp'
+                    
+                    document.body.appendChild(form)
+                    form.submit()
+                }
         }
-    }
+        function deleteEvent(){
+            var confirmValue = confirm("삭제하시겠습니까?")
+            if (confirmValue == true){
+                var form = document.createElement('form')
+                var index = document.createElement('input')
+                index.type = 'hidden'
+                index.value = event.target.id
+                index.name = 'indexValue'
+                
+                var date = document.createElement('input')
+                date.type = 'hidden'
+                date.value = '<%=currentMonth%>'
+                date.name = 'inquireDateValue'
+                
+                form.appendChild(date)  
+                form.appendChild(index)
+                form.method = 'POST'
+                form.action = 'complete.jsp/delete_complete.jsp'
+                
+                document.body.appendChild(form)
+                form.submit()
+            }
+        }
 
-    function del_todo() {
-        alert("삭제하시겠습니까?")
-    }
+
+
 
     function navEvent() {
         document.getElementById("media_nav").style.display = "block";
@@ -527,21 +562,23 @@
                 else if (intDay == intTodayDay && intHour <= intTodayHour && intMin <= intTodayMin){
                     planName.className += ' past_plan'
                 }
-                var modifybutton = document.createElement('button')
-                modifybutton.className = 'modify_btn'
-                modifybutton.innerHTML = '수정'
-                modifybutton.id = item[2]
-                modifybutton.type = 'button'
-                //modifybutton.addEventListener('click', modifyEvent)
+                var fix_btn = document.createElement('button')
+                fix_btn.className = 'fix_btn'
+                fix_btn.innerHTML = '수정'
+                fix_btn.id = item[2]
+                fix_btn.type = 'button'
+                fix_btn.addEventListener('click', fixEvent)
+
                 var delbutton = document.createElement('button')
                 delbutton.className = 'delete_btn'
                 delbutton.innerHTML = '삭제'
                 delbutton.id = item[2]
                 delbutton.type = 'button'
-                //delbutton.addEventListener('click', deleteEvent)
+                delbutton.addEventListener('click', deleteEvent)
+
                 li.appendChild(time)
                 li.appendChild(planName)
-                li.appendChild(modifybutton)
+                li.appendChild(fix_btn)
                 li.appendChild(delbutton)
                 for (var dateDiv of date){
                     if (dateDiv.innerText.split('\n')[0].slice(0, -1) == day){
