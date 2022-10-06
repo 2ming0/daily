@@ -24,11 +24,10 @@
     
     Connection connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/daily", "ming", "11234"); 
     
-    String sql = "UPDATE schedule SET content=?, datetime=? WHERE idx=?";
+    String sql = "UPDATE schedule SET content=? WHERE idx=?";
     PreparedStatement query = connect.prepareStatement(sql);
     query.setString(1, textValue);
-    query.setString(2, modifyDate);
-    query.setString(3, idxValue);
+    query.setString(2, idxValue);
      
     query.executeUpdate();
 
