@@ -370,7 +370,7 @@
             fix.addEventListener('keydown', function(event) {
                 if (event.keyCode === 13) {
                   event.preventDefault()
-                  fix_completeEvent(fix.value, value, textTag, fix, completeBtn, cancelBtn, target, delBtn)
+                  fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)
                 }
               })
   
@@ -385,9 +385,9 @@
             var delBtn = target.nextElementSibling
             target.style.visibility = 'hidden'
             delBtn.style.visibility = 'hidden'
-            completeBtn.addEventListener('click', function(){fix_completeEvent(fix.value, value, textTag, fix, completeBtn, cancelBtn, target, delBtn)})
+            completeBtn.addEventListener('click', function(){fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)})
         }
-        function fix_completeEvent(value, oriValue, oriTag, input, completeBtn, cancelBtn, fix_btn, delBtn){
+        function fix_completeEvent(value, oriValue, oriTag, input, completeBtn, fix_btn, delBtn){
                 var confirmValue = confirm("수정하시겠습니까?")
                 if (confirmValue == true){
                     var form = document.createElement('form')
