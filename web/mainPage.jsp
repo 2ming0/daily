@@ -43,84 +43,68 @@
     
     ArrayList<String> sc_data = new ArrayList<String>();
     
-
-
-        if (position.equals("manager")){
-            String sql = "SELECT name, position, department FROM user WHERE id NOT IN (?) ORDER BY department ASC, position DESC";
-            PreparedStatement query = connect.prepareStatement(sql);
-            query.setString(1, id);
-            ResultSet result = query.executeQuery();
-        
-            while(result.next()) {
-                if (result.getString(3).equals("develop")){
-                    dev_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
-                }
-                else if (result.getString(3).equals("education")){
-                    edu_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
-                }
-                else if (result.getString(3).equals("marketing")){
-                    mk_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
-                }
-                else{
-                    mng_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
-                } 
-            }
-        }
-        else{
-            
-            String sql = "SELECT name, position, department FROM user WHERE department=? AND id NOT IN (?) ORDER BY department ASC, position DESC";
-            PreparedStatement query = connect.prepareStatement(sql);
-            query.setString(1, department);
-            query.setString(2, id);
-
-            ResultSet result = query.executeQuery();
-        
-            while(result.next()) { 
-                team.add("[" +  "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
-            }
-        }
+//  if (!department.equals(null)){
+//  
+//            String sql = "SELECT name, position, develop FROM user WHERE id NOT IN (?) ORDER BY department ASC, position DESC";
+//            PreparedStatement query = connect.prepareStatement(sql);
+//            query.setString(1, id);
+//            ResultSet result = query.executeQuery();
+//
+//            while(result.next()) {
+//                if (result.getString(3).equals("develop")){
+//                    dev_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
+//                }
+//                else if (result.getString(3).equals("educate")){
+//                    edu_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
+//                }
+//                else if (result.getString(3).equals("marketing")){
+//                    mk_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
+//                }
+//                else{
+//                    mng_team.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "," + "'" + result.getString(4) + "'" + "]");
+//                } 
+//            }
+//    }
         
 
-        currentMonth = request.getParameter("inquireDateValue");
-        writer = id;
-        if (currentMonth == null || currentMonth.equals("")){
-            LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
-            currentMonth = dateTime.withDayOfMonth(1).format(DateTimeFormatter.ISO_DATE);
-            nextMonth = dateTime.plusMonths(1).withDayOfMonth(1).minusDays(1).format(DateTimeFormatter.ISO_DATE) + " 23:59:59";
-            String sql = "SELECT content, datetime, idx FROM schedule WHERE datetime BETWEEN ? AND ? AND writer=? ORDER BY datetime ASC";
-            PreparedStatement query = connect.prepareStatement(sql);
-            query.setString(1, currentMonth);
-            query.setString(2, nextMonth);
-            query.setString(3, writer);
+    currentMonth = request.getParameter("inquireDateValue");
+    writer = id;
+    if (currentMonth == null || currentMonth.equals("")){
+        LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        currentMonth = dateTime.withDayOfMonth(1).format(DateTimeFormatter.ISO_DATE);
+        nextMonth = dateTime.plusMonths(1).withDayOfMonth(1).minusDays(1).format(DateTimeFormatter.ISO_DATE) + " 23:59:59";
+        String sql = "SELECT content, datetime, idx FROM schedule WHERE datetime BETWEEN ? AND ? AND writer=? ORDER BY datetime ASC";
+        PreparedStatement query = connect.prepareStatement(sql);
+        query.setString(1, currentMonth);
+        query.setString(2, nextMonth);
+        query.setString(3, writer);
     
-            // SQL문 전송 및 결과 받기
-            ResultSet result = query.executeQuery();
+        // SQL문 전송 및 결과 받기
+        ResultSet result = query.executeQuery();
     
-            // result.next 읽어온 테이블에서 읽을 수 있는 다음 줄이 있을때까지 계속 읽기
-            while(result.next()) {
-                sc_data.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "]");
-            }
+        while(result.next()) {
+            sc_data.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "]");
         }
-        else{
-            String[] tmp = currentMonth.split("-");
-            currentMonth = tmp[0] + "-" + tmp[1] + "-" + "01";
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");         
-            LocalDate dateTime = LocalDate.parse(currentMonth, formatter);
-            nextMonth = dateTime.plusMonths(1).withDayOfMonth(1).minusDays(1).format(DateTimeFormatter.ISO_DATE) + " 23:59:59";
-            String sql = "SELECT content, datetime, idx FROM schedule WHERE datetime BETWEEN ? AND ? AND writer=? ORDER BY datetime ASC";
-            PreparedStatement query = connect.prepareStatement(sql);
-            query.setString(1, currentMonth);
-            query.setString(2, nextMonth);
-            query.setString(3, writer);
+    }
+    else{
+        String[] tmp = currentMonth.split("-");
+        currentMonth = tmp[0] + "-" + tmp[1] + "-" + "01";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");         
+        LocalDate dateTime = LocalDate.parse(currentMonth, formatter);
+        nextMonth = dateTime.plusMonths(1).withDayOfMonth(1).minusDays(1).format(DateTimeFormatter.ISO_DATE) + " 23:59:59";
+        String sql = "SELECT content, datetime, idx FROM schedule WHERE datetime BETWEEN ? AND ? AND writer=? ORDER BY datetime ASC";
+        PreparedStatement query = connect.prepareStatement(sql);
+        query.setString(1, currentMonth);
+        query.setString(2, nextMonth);
+        query.setString(3, writer);
     
-            // SQL문 전송 및 결과 받기
-            ResultSet result = query.executeQuery();
-    
-            // result.next 읽어온 테이블에서 읽을 수 있는 다음 줄이 있을때까지 계속 읽기
-            while(result.next()) {
-                sc_data.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "]");
-            }
+        // SQL문 전송 및 결과 받기
+        ResultSet result = query.executeQuery();
+
+        while(result.next()) {
+            sc_data.add("[" + "'" + result.getString(1) + "'" + "," + "'" + result.getString(2) + "'" + "," + "'" + result.getString(3) + "'" + "]");
         }
+    }
 
 
 
@@ -154,58 +138,17 @@
             <a href="../loginPage.jsp" id="return_login">logout</a>
         </span>
     </header>    
-    <div id="media_nav">
-        <img id="media_menu" src="https://cdn-icons-png.flaticon.com/512/4204/4204600.png" onclick="navXEvent()">
-        <!-- <div class="member">
-            <div id="me">관리자 이00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/753/753345.png" class="access">관리자 안00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/1688/1688400.png" class="access">개발</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 박00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 이00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/2849/2849198.png" class="access">교육</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 한00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/3188/3188341.png" class="access">마케팅</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 하00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 최00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 은00</div>
-        </div> -->
-    </div>
 
 
     <div id="container">
 
-    <nav>
-        <!-- <div class="member">
-            <div id="me">관리자 이00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/753/753345.png" class="access">관리자 안00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/1688/1688400.png" class="access">개발</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 박00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 이00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/2849/2849198.png" class="access">교육</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 한00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 김00</div>
-        </div>
-        <div class="member">
-            <div><img src="https://cdn-icons-png.flaticon.com/512/3188/3188341.png" class="access">마케팅</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">팀장 하00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 최00</div>
-            <div class="member_name"><img src="https://cdn-icons-png.flaticon.com/512/6276/6276686.png" class="access">사원 은00</div>
-        </div> -->
+    <nav id="view_member">
+        <img id="media_menu" src="https://cdn-icons-png.flaticon.com/512/4204/4204600.png" onclick="navXEvent()">
+        <div id="mng_mem"></div>
+        <div id="dev_mem">개발</div>
+        <div id="mk_mem">마케팅</div>
+        <div id="edu_mem">교육</div>
+
     </nav>
 
 
@@ -222,83 +165,46 @@
         <a id="add" onclick="addEvent()">+</a>
         <form action="complete.jsp/mainPage_add.jsp" method="post">
             <div id="add_box">
-                <div id="add_box_title">일정 추가</div>
-                <input type="date" id="add_date" value="2022-10-01" min="2018-01-01" max="2025-12-31" name="todo_date">
-                <select id="select_time1" name="select_time1">
-                    <option value="morning">오전</option>
-                    <option value="afternoon">오후</option>
+                <div class="in_add_box" id="add_box_title">일정 추가</div>
+                <input class="in_add_box" type="date" id="add_date" value="2022-11-01" min="2018-01-01" max="2025-12-31" name="todo_date">
+                <select class="in_add_box" id="select_time1" name="select_time1">
+                    <option class="in_add_box" value="morning">오전</option>
+                    <option class="in_add_box" value="afternoon">오후</option>
                 </select>
-                <select id="select_time2" name="select_time2">
-                    <option value="00">00</option>
-                    <option value="01">01</option>
-                    <option value="02">02</option>
-                    <option value="03">03</option>
-                    <option value="04">04</option>
-                    <option value="05">05</option>
-                    <option value="06">06</option>
-                    <option value="07">07</option>
-                    <option value="08">08</option>
-                    <option value="09">09</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
+                <select class="in_add_box" id="select_time2" name="select_time2">
+                    <option class="in_add_box" value="00">00</option>
+                    <option class="in_add_box" value="01">01</option>
+                    <option class="in_add_box" value="02">02</option>
+                    <option class="in_add_box" value="03">03</option>
+                    <option class="in_add_box" value="04">04</option>
+                    <option class="in_add_box" value="05">05</option>
+                    <option class="in_add_box" value="06">06</option>
+                    <option class="in_add_box" value="07">07</option>
+                    <option class="in_add_box" value="08">08</option>
+                    <option class="in_add_box" value="09">09</option>
+                    <option class="in_add_box" value="10">10</option>
+                    <option class="in_add_box" value="11">11</option>
+                    <option class="in_add_box" value="12">12</option>
                 </select>
-                <a id="hour">시</a>
-                <select id="select_time3" name="select_time3">
-                    <option value="00">00</option>
-                    <option value="15">15</option>
-                    <option value="30">30</option>
-                    <option value="45">45</option>
+                <a class="in_add_box" id="hour">시</a>
+                <select class="in_add_box" id="select_time3" name="select_time3">
+                    <option class="in_add_box" value="00">00</option>
+                    <option class="in_add_box" value="15">15</option>
+                    <option class="in_add_box" value="30">30</option>
+                    <option class="in_add_box" value="45">45</option>
                 </select>
-                <a id="minute">분</a>
-                <input id="input_todo" placeholder="할일이 무엇인가요?" type="text" name="todo_content">
-                <input type="submit" value="완료" id="submit">
+                <a class="in_add_box" id="minute">분</a>
+                <input class="in_add_box" id="input_todo" placeholder="할일이 무엇인가요?" type="text" name="todo_content">
+                <input class="in_add_box" type="submit" value="완료" id="submit">
             </div>
         </form>
-        <div class="day">
-    <!--         <a id="1date"></a>
-            <div>
-                <a></a>
-                <a class="todo"><del id="schedule1"></del></a>
-                <a class="fix" id="fix_1" onclick="fix()">수정</a>
-                <a class="del" onclick="del_todo()">삭제</a>                
-            </div>
-            <div>
-                <a>오전 10:00</a>
-                <a class="todo"><del>8월 마무리 안된 일정 넘기기</del></a>
-                <a class="fix">수정</a>
-                <a class="del" onclick="del_todo()">삭제</a>                
-            </div>
-        </div>
-        <div class="day">
-            <a>5일</a>
-            <div>
-                <a>오전 11:00</a>
-                <a class="todo"><del>비품 주문</del></a>
-                <a class="fix">수정</a>
-                <a class="del" onclick="del_todo()">삭제</a>                
-            </div>
-            <div>
-                <a>오후 3:00</a>
-                <a class="todo">회식 장소 찾기 & 예약</a>
-                <a class="fix">수정</a>
-                <a class="del" onclick="del_todo()">삭제</a>                
-            </div>
-        </div>
-        <div class="day">
-            <a>8일</a>
-            <div>
-                <a>오후 6:00</a>
-                <a class="todo">회식</a>
-                <a class="fix">수정</a>
-                <a class="del" onclick="del_todo()">삭제</a>                
-            </div>-->
-        </div> 
+        <div class="day"></div> 
     </main>
 </div>
 
 <script type="text/javascript">
     var fix_check = 0;
+    //앞에 is 붙이거나 
 
     function dateEvent(yearValue, monthValue){
             var month = document.getElementsByClassName('month')[0]
@@ -307,24 +213,24 @@
             month.innerHTML = monthValue
     }
 
-        function monthEvent(year, month){
-            if (String(month).length == 1){
-                month = '0' + month
-            }
-            var date = year + '-' + month + '-' + '01'
-            var form = document.createElement('form')
-            var input = document.createElement('input')
-            input.type = 'hidden'
-            input.value = date
-            input.name = 'inquireDateValue'
-            form.action = 'mainPage.jsp'
-            form.method = 'POST'
-            form.appendChild(input)
-            document.body.appendChild(form)
-            form.submit()
+    function monthEvent(year, month){ //movepage, refreshpage 같은 이름으로 고치기
+        if (String(month).length == 1){
+            month = '0' + month
+        }
+        var date = year + '-' + month + '-' + '01'
+        var form = document.createElement('form')
+        var input = document.createElement('input')
+        input.type = 'hidden'
+        input.value = date
+        input.name = 'inquireDateValue'
+        form.action = 'mainPage.jsp'
+        form.method = 'POST'
+        form.appendChild(input)
+        document.body.appendChild(form)
+        form.submit()
     }
 
-    function premonthEvent() {
+    function premonthEvent() { //이름 잘 짓기
         var month = document.getElementsByClassName('month')[0].innerHTML
         var year = document.getElementsByClassName('year')[0].innerHTML
 
@@ -355,106 +261,117 @@
         document.getElementById("container").style = 'background-blend-mode: multiply;';
     }
 
-    function add_submit() {
+    function add_submit() { //addSumbitEvent
         document.getElementById("add_box").style.display = "none";
     }
 
     function fixEvent(){
-            const target = event.target        
-            const textTag = target.previousElementSibling
-            const value = textTag.innerHTML
-            var fix = document.createElement('input')
-            fix.type = 'text'
-            fix.value = value
-            fix.className = 'fix_input'
-            fix.addEventListener('keydown', function(event) {
-                if (event.keyCode === 13) {
-                  event.preventDefault()
-                  fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)
-                }
-              })
-  
-            
-            textTag.innerHTML = ''
-            textTag.appendChild(fix)
-            var completeBtn = document.createElement('button')
-            completeBtn.type = 'button'
-            completeBtn.innerHTML = '완료'
-            completeBtn.className = 'fix_input_btn'
-            textTag.after(completeBtn)
-            var delBtn = target.nextElementSibling
-            target.style.visibility = 'hidden'
-            delBtn.style.visibility = 'hidden'
-            completeBtn.addEventListener('click', function(){fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)})
-        }
-        function fix_completeEvent(value, oriValue, oriTag, input, completeBtn, fix_btn, delBtn){
-                var confirmValue = confirm("수정하시겠습니까?")
-                if (confirmValue == true){
-                    var form = document.createElement('form')
-                    var index = document.createElement('input')
-                    index.type = 'hidden'
-                    index.value = fix_btn.id
-                    index.name = 'indexValue'
-                    
-                    var text = document.createElement('input')
-                    text.type = 'hidden'
-                    text.value = value
-                    text.name = 'textValue'
-                    var date = document.createElement('input')
-                    date.type = 'hidden'
-                    date.value = '<%=currentMonth%>'
-                    date.name = 'inquireDateValue'
-                    
-                    form.appendChild(index)
-                    form.appendChild(text)
-                    form.appendChild(date)  
-                    form.method = 'POST'
-                    form.action = 'complete.jsp/fix_complete.jsp'
-                    
-                    document.body.appendChild(form)
-                    form.submit()
-                }
-        }
-        function deleteEvent(){
-            var confirmValue = confirm("삭제하시겠습니까?")
-            if (confirmValue == true){
-                var form = document.createElement('form')
-                var index = document.createElement('input')
-                index.type = 'hidden'
-                index.value = event.target.id
-                index.name = 'indexValue'
-                
-                var date = document.createElement('input')
-                date.type = 'hidden'
-                date.value = '<%=currentMonth%>'
-                date.name = 'inquireDateValue'
-                
-                form.appendChild(date)  
-                form.appendChild(index)
-                form.method = 'POST'
-                form.action = 'complete.jsp/delete_complete.jsp'
-                
-                document.body.appendChild(form)
-                form.submit()
+        const target = event.target        
+        const textTag = target.previousElementSibling
+        const value = textTag.innerHTML
+        var fix = document.createElement('input')
+        fix.type = 'text'
+        fix.value = value
+        fix.className = 'fix_input'
+        fix.addEventListener('keydown', function(event) {
+            if (event.keyCode === 13) {
+              event.preventDefault()
+              fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)
             }
+            }
+            )
+            
+        textTag.innerHTML = ''
+        textTag.appendChild(fix)
+        var completeBtn = document.createElement('button')
+        completeBtn.type = 'button'
+        completeBtn.innerHTML = '완료'
+        completeBtn.className = 'fix_input_btn'
+        textTag.after(completeBtn)
+        var delBtn = target.nextElementSibling
+        target.style.visibility = 'hidden'
+        delBtn.style.visibility = 'hidden'
+        completeBtn.addEventListener('click', function(){fix_completeEvent(fix.value, value, textTag, fix, completeBtn, target, delBtn)})
+    }
+    function fix_completeEvent(value, oriValue, oriTag, input, completeBtn, fix_btn, delBtn){
+        var confirmValue = confirm("수정하시겠습니까?")
+        if (confirmValue == true){
+            var form = document.createElement('form')
+            var index = document.createElement('input')
+            index.type = 'hidden'
+            index.value = fix_btn.id
+            index.name = 'indexValue'
+                
+            var text = document.createElement('input')
+            text.type = 'hidden'
+            text.value = value
+            text.name = 'textValue'
+            var date = document.createElement('input')
+            date.type = 'hidden'
+            date.value = '<%=currentMonth%>'
+            date.name = 'inquireDateValue'
+                
+            form.appendChild(index)
+            form.appendChild(text)
+            form.appendChild(date)  
+            form.method = 'POST'
+            form.action = 'complete.jsp/fix_complete.jsp'
+                
+            document.body.appendChild(form)
+            form.submit()
         }
+    }
+    function deleteEvent(){
+        var confirmValue = confirm("삭제하시겠습니까?")
+        if (confirmValue == true){
+            var form = document.createElement('form')
+            var index = document.createElement('input')
+            index.type = 'hidden'
+            index.value = event.target.id
+            index.name = 'indexValue'
+            var date = document.createElement('input')
+            date.type = 'hidden'
+            date.value = '<%=currentMonth%>'
+            date.name = 'inquireDateValue'
+            
+            form.appendChild(date)  
+            form.appendChild(index)
+            form.method = 'POST'
+            form.action = 'complete.jsp/delete_complete.jsp'
+            
+            document.body.appendChild(form)
+            form.submit()
+        }
+    }
 
 
 
 
     function navEvent() {
-        document.getElementById("media_nav").style.display = "block";
+        document.getElementByTagName("nav").style.display = "block";
     }
 
     function navXEvent() {
-        document.getElementById("media_nav").style.display = "none";
+        document.getElementByTagName("nav").style.display = "none";
+    }
+
+    function viewOtherPlanEvent(position){
+        const my_pos = '<%=position%>'
+        if (my_pos == 'manager' || my_pos == 'leader'){
+                var form = document.createElement('form')
+                var idx = document.createElement('input')
+                idx.name = 'idx'
+                idx.value = event.target.id
+                form.appendChild(idx)
+                document.body.appendChild(form)
+                form.submit()
+        }
+        else{
+            alert('접근권한이 없습니다.')
+        }
     }
 
     window.onload = function() {
-
-
-
-
 
         var currentDate = "<%=currentMonth%>".split('-')
         console.log(currentDate)
@@ -462,7 +379,6 @@
 
 
         document.getElementById("add_box").style.display = "none";
-        document.getElementById("media_nav").style.display = "none";
 
         var login_user = "<%=name%>";
             console.log("<%=id%>");
@@ -499,6 +415,8 @@
         const intTodayHour = parseInt(todayString.slice(11, 13))
         const intTodayMin = parseInt(todayString.slice(14, 16))
 
+
+
         const tmpData = []
         for (var item of data){
             tmpData.push(item[1].slice(8, 10))
@@ -519,8 +437,8 @@
         for (var item of data){
             var day = item[1].slice(8, 10)
             var date = document.getElementsByClassName('date')
-                // 내부 일정칸 생성
             var li = document.createElement('li')
+            li.className = 'list_todo'
             var time = document.createElement('time')
             var timeValue = item[1].slice(11, 16)
             time.datetime = timeValue 
@@ -595,6 +513,24 @@
 
         }
 
+    //    if ('<%=position%>' == 'manager'){
+    //            var dev = '<%=dev_team%>'
+    //            var edu = '<%=edu_team%>'
+    //            var mk = '<%=mk_team%>'
+    //            var mng = '<%=mng_team%>'
+    //            var department = [dev, edu, mk, mng]
+    //            for (var item of department){
+    //                makeStaffBox(item)
+    //            }
+    //        }
+    //        else{
+    //            var team = <%=team%>
+    //            makeStaffBox(team)
+    //        }   
+
+    //    console.log("<%=dev_team%>")
+    //    console.log("<%=mng_team%>")
+    //    console.log("<%=team%>")
 
 
 

@@ -21,9 +21,9 @@
     String department = "";
 
     id = (String)session.getAttribute("id");
-    name = (String)session.getAttribute("name");
-    position = (String)session.getAttribute("position");
-    department = (String)session.getAttribute("department");
+    //name = (String)session.getAttribute("name");
+    //position = (String)session.getAttribute("position");
+    //department = (String)session.getAttribute("department");
 
     //이전 페이지로부터 값 받아오는 부분
     String todo_date = request.getParameter("todo_date");

@@ -83,81 +83,76 @@ nav {
 
 main {
     position: relative;
-    height: 80vmin;
+    height: 80vh;
     width: 80%;
-    border: 3px solid #FECD70;
+    border-top: 3px solid #FECD70;
     margin-right: 0px;
     font-size: 25px;
-
 }
 
 #add_box {
     position: relative;
     width: 100%;
-    height: 40vh;
+    height: 30vh;
     border: 1px solid;   
 }
 
 #add_box_title {
     width: 100%;
-    height: 10vh;
+    height: 15%;
     border-bottom: 1px solid;   
     text-align: center;
-    font-size: 30px;
+}
+
+.in_add_box {
+    font-size: 25px;
 }
 
 #add_date {
     position: absolute;
     left: 5%;
-    width: 20%;
-    height: 10%;
-    font-size: 25px;
+    width: 25%;
+    height: 12%;
 }
 
 
 #select_time1 {
     position: absolute;
-    left: 30%;
-    width: 10%;
-    height: 10%;
-    font-size: 25px;
+    left: 35%;
+    width: 14%;
+    height: 12%;
 }
 
 #select_time2 {
     position: absolute;
-    left: 50%;
-    width: 10%;
-    height: 10%;
-    font-size: 25px;
+    left: 55%;
+    width: 12%;
+    height: 12%;
 }
 
 #hour {
     position: absolute;
-    left: 60%;
-    font-size: 25px;
+    left: 68%;
 }
 
 #select_time3 {
     position: absolute;
-    left: 70%;
-    width: 10%;
-    height: 10%;
-    font-size: 25px;
+    left: 75%;
+    width: 12%;
+    height: 12%;
 }
 
 #minute {
     position: absolute;
-    left: 80%;
-    font-size: 25px;
+    left: 88%;
 }
 
 #input_todo {
     position: absolute;
     left: 5%;
     top: 40%;
-    font-size: 25px;
     border: 0px;
-    width: 80%;
+    width: 70%;
     height: 50%;
 }
 
@@ -165,17 +160,16 @@ main {
     position: absolute;
     right: 2%;
     bottom: 5%;    
-    width: 10%;
-    height: 10%;
-    font-size: 20px;
+    width: 13%;
+    height: 15%;
 }
 
 
 #date {
     margin-left: auto;
     margin-right: auto;
-    width: 30%;
-    font-size: 25px;
+    width: 50%;
+    font-size: 30px;
     text-align: center;
 }
 
@@ -215,17 +209,38 @@ main {
     top: 23%;
 }
 
-.fix {
-    position: absolute;
-    right: 15%;
-    color: gray;
+.list_todo {
+    display: flex;
+    
+    width: 70%;
 }
 
-.del {
+.fix_btn {
     position: absolute;
-    right: 8%;
-    color: gray;
+    right: 13%;
+    width: 5%;
+    height: 5%;
 }
+
+.delete_btn {
+    position: absolute;
+    right: 7%;
+    width: 5%;
+    height: 5%;
+}
+
+.fix_input_btn {
+    position: absolute;
+    right: 7%;
+    width: 5%;
+    height: 5%;
+}
+
+.date_plan {
+    position: absolute;
+    left: 25%;    
+}
+
 
 @media (max-width: 750px) {
     h1 {
@@ -260,6 +275,65 @@ main {
     }
     #add {
         font-size: 13px;
+    }
+}
+
+@media (max-width: 360px) {
+    h1 {
+        font-size: 22px;
+    }
+    nav {
+        font-size: 13px;
+        display: none;
+    }
+    main {
+        width: 100%;
+        font-size: 16px;
+        height: 80vh;
+    }
+    .year {
+        font-size: 20px;
+    }
+    .month { 
+        font-size: 20px;
+    }
+    #menu {
+        display: block;
+    }
+    .todo {
+        font-size: 16px;
+    }
+    #month {
+        font-size: 16px;
+    }
+    .next {
+        width: 10px;
+        height: 10px;
+    }
+    .member {
+        font-size: 16px;
+    }
+    #me {
+        font-size: 18px;
+    }
+    #add {
+        font-size: 12px;
+    }
+    .in_add_box {
+        font-size: 13px;
+    }
+    .fix_btn {
+        position: absolute;
+        right: 15%;
+        width: 11%;
+        height: 4%;
+    }
+    
+    .delete_btn {
+        position: absolute;
+        right: 4%;
+        width: 11%;
+        height: 4%;
     }
 }
 
