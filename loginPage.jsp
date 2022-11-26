@@ -35,7 +35,7 @@
     </header>
 
     <main>
-        <form action="web/complete.jsp/logincompletePage.jsp" method="post">
+        <form action="web/complete.jsp/login_completePage.jsp" method="post">
             <div>
                 <input id="id" class="text_input" placeholder="ID" type="text" name="id">
             </div>
